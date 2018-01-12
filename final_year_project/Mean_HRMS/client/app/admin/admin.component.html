@@ -1,0 +1,21 @@
+<ul class="row nav nav-tabs">
+	<li class="col-md-6 active plr0 text-center">
+		<a data-toggle="tab" href="#employees">Employees</a>
+	</li>
+	<li class="col-md-6 plr0 text-center">
+		<a data-toggle="tab" href="#add_employee">Add Employee</a>
+	</li>
+</ul>
+<div class="tab-content pt10">
+	<div id="employees" class="tab-pane fade in active">
+		<div class="panel panel-default panel-nob">
+			<div class="panel-heading">
+				Employees of {{currentUser.company_name}}
+			</div>
+			<user-list></user-list>
+		</div>
+	</div>
+	<div id="add_employee" class="tab-pane fade">
+		<add-new-employee></add-new-employee>
+	</div>
+</div>

@@ -1,0 +1,19 @@
+<div class="panel-body" *ngFor="let user of users">
+	<div class="row panel-row" *ngIf="user.user_role == 'Employee' && user.admin_id == currentUser._id">
+		<div class="col-sm-3">
+			<a [routerLink]="['/Profileuser', user._id]">{{user.firstName}} {{user.lastName}}</a>
+		</div>
+		<div class="col-sm-5">
+			<p>{{user.email}}</p>
+		</div>
+		<div class="col-sm-2">
+			<p>{{user.employee_id}}</p>
+		</div>
+		<div class="col-sm-1 pull-right">
+			<a [routerLink]="['/editUser', user._id]"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+		</div>
+		<div class="col-sm-1 pull-right">
+			<a (click)="deleteUser(user._id)"><i class="fa fa-trash" aria-hidden="true"></i></a>
+		</div>
+	</div>
+</div>

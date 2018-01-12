@@ -1,0 +1,378 @@
+<style type="text/css">
+	body {
+		background: #F1F3FA;
+	}
+
+	/* Profile container */
+	.profile {
+		margin: 20px 0;
+	}
+
+	/* Profile sidebar */
+	.profile-sidebar {
+		padding: 20px 0 10px 0;
+		background: #fff;
+	}
+
+	.profile-userpic img {
+		float: none;
+		margin: 0 auto;
+		width: 50px;
+		height: 50px;
+		-webkit-border-radius: 50% !important;
+		-moz-border-radius: 50% !important;
+		border-radius: 50% !important;
+		border: 1px solid #999;
+	}
+
+	.profile-usertitle {
+		text-align: center;
+		margin-top: 20px;
+	}
+
+	.profile-usertitle-name {
+		color: #5a7391;
+		font-size: 16px;
+		font-weight: 600;
+		margin-bottom: 7px;
+	}
+
+	.profile-usertitle-job {
+		text-transform: uppercase;
+		color: #5b9bd1;
+		font-size: 12px;
+		font-weight: 600;
+		margin-bottom: 5px;
+	}
+
+	.profile-userbuttons {
+		text-align: center;
+		margin-top: 10px;
+	}
+
+	.profile-userbuttons .btn {
+		text-transform: uppercase;
+		font-size: 11px;
+		font-weight: 600;
+		padding: 6px 15px;
+		margin-right: 5px;
+	}
+
+	.profile-userbuttons .btn:last-child {
+		margin-right: 0px;
+	}
+
+	.profile-usermenu {
+		margin-top: 30px;
+	}
+
+	.profile-usermenu {
+		margin-top: 30px;
+	}
+
+	.profile-usermenu ul li {
+		border-bottom: 1px solid #f0f4f7;
+	}
+
+	.profile-usermenu ul li:last-child {
+		border-bottom: none;
+	}
+
+	.profile-usermenu ul li a {
+		color: #93a3b5;
+		font-size: 14px;
+		font-weight: 400;
+	}
+
+	.profile-usermenu ul li a i {
+		margin-right: 8px;
+		font-size: 14px;
+	}
+
+	.profile-usermenu ul li a:hover {
+		background-color: #fafcfd;
+		color: #5b9bd1;
+	}
+
+	.profile-usermenu ul li.active {
+		border-bottom: none;
+	}
+
+	.profile-usermenu ul li.active a {
+		color: #5b9bd1;
+		background-color: #f6f9fb;
+		border-left: 2px solid #5b9bd1;
+		margin-left: -2px;
+	}
+
+	/* Profile Content */
+	.profile-content {
+		padding: 20px;
+		background: #fff;
+		min-height: 460px;
+	}
+</style>
+
+<div class="container fadeInDown">
+	<div class="row profile">
+		<div class="col-md-3">
+			<div class="profile-sidebar">
+				<!-- SIDEBAR USERPIC -->
+				<p style="margin-right: 10px; text-align: right;"><a [routerLink]="['/login']"><i class="fa fa-sign-out"></i></a></p>
+				<div class="profile-userpic">
+					<img src="images/user.png" class="img-responsive" alt="">
+				</div>
+				<!-- END SIDEBAR USERPIC -->
+				<!-- SIDEBAR USER TITLE -->
+				<div class="profile-usertitle">
+					<div class="profile-usertitle-name">
+						{{currentUser.firstName}} {{currentUser.lastName}}
+					</div>
+					<div class="profile-usertitle-job">
+						{{currentUser.designation}}, {{currentUser.company_name}}
+					</div>
+					<div>
+						Email: <span style="text-decoration: underline; color: blue;">{{currentUser.email}}</span>
+					</div>
+					<div>
+						Contact: {{currentUser.phone}}
+					</div>
+				</div>
+				<div class="profile-usermenu">
+					<ul class="nav">
+						<li class="active">
+							<a [routerLink]="['/']"><i class="fa fa-users"></i>Employees </a>
+						</li>
+						<li >
+							<a [routerLink]="['/uploadCSV']"><i class="fa fa-users"></i>Upload CSV </a>
+						</li>
+						<li >
+							<a [routerLink]="['/holidayCalendar']"><i class="fa fa-users"></i>Holiday Calendar </a>
+						</li>
+						<li>
+							<a [routerLink]="['/report']"><i class="fa fa-users"></i>Attendance</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-9">
+			<div class="profile-content col-md-12">
+				<div class="col-md-12 col-lg-12">
+					<a [routerLink]="['/']"><i class="fa fa-arrow-left"></i> Home</a>
+				</div>
+				<div *ngIf="selectedUser?._id" class="col-md-12 col-lg-12" style="top: 15px;">
+					<form class="m-t" name="form" #f="ngForm" (ngSubmit)="f.form.valid && updateUser(selectedUser._id)" novalidate>
+						<div class="page-header" style="margin-top: auto;">
+							<h4>Contact Details</h4>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !firstName.valid }">
+								<input type="text" class="form-control" name="firstName" [(ngModel)]="selectedUser.firstName" #firstName="ngModel" placeholder="First Name" required  />
+								<div *ngIf="f.submitted && !firstName.valid" class="help-block">First Name is required</div>
+							</div>
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !lastName.valid }">
+								<input type="text" class="form-control" name="lastName" [(ngModel)]="selectedUser.lastName" #lastName="ngModel" placeholder="Last Name" required />
+								<div *ngIf="f.submitted && !lastName.valid" class="help-block">Last Name is required</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !email.valid }">
+								<input type="email" class="form-control" name="email" [(ngModel)]="selectedUser.email" #email="ngModel" placeholder="Email" required />
+								<div *ngIf="f.submitted && !email.valid" class="help-block">Email is required</div>
+							</div>
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !phone.valid }">
+								<input type="number" class="form-control" name="phone" [(ngModel)]="selectedUser.phone" #phone="ngModel" placeholder="Phone"  required />
+								<div *ngIf="f.submitted && !phone.valid" class="help-block">Contact number is required</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !current_address.valid }">
+								<input type="text" class="form-control" name="current_address" [(ngModel)]="selectedUser.current_address" #current_address="ngModel" placeholder="Current Address" required />
+								<div *ngIf="f.submitted && !current_address.valid" class="help-block">Current Address is required</div>
+							</div>
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !permanent_address.valid }">
+								<input type="text" class="form-control" name="permanent_address" [(ngModel)]="selectedUser.permanent_address" #permanent_address="ngModel" placeholder="Permanent Address"  required />
+								<div *ngIf="f.submitted && !permanent_address.valid" class="help-block">Permanent Address is required</div>
+							</div>
+						</div>
+						<div class="page-header" style="margin-top: auto;">
+							<h4>Company Profile Details</h4>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !employee_id.valid }">
+								<input type="text" class="form-control" name="employee_id" [(ngModel)]="selectedUser.employee_id" #employee_id="ngModel" placeholder="Employee ID" required  />
+								<div *ngIf="f.submitted && !employee_id.valid" class="help-block">Employee ID is required</div>
+							</div>
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !attendance_id.valid }">
+								<input type="text" class="form-control" name="attendance_id" [(ngModel)]="selectedUser.attendance_id" #attendance_id="ngModel" placeholder="Attendance ID" required  />
+								<div *ngIf="f.submitted && !attendance_id.valid" class="help-block">Attendance ID is required</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+								<input type="text" class="form-control" name="username" [(ngModel)]="selectedUser.username" #username="ngModel" placeholder="Username" required />
+								<div *ngIf="f.submitted && !username.valid" class="help-block">Username is required</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !designation.valid }">
+								<input type="text" class="form-control" name="designation" [(ngModel)]="selectedUser.designation" #designation="ngModel" placeholder="Designation" required />
+								<div *ngIf="f.submitted && !designation.valid" class="help-block">Designation is required</div>
+							</div>
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !company_name.valid }">
+								<input type="text" class="form-control" name="company_name" [(ngModel)]="selectedUser.company_name" #company_name="ngModel" placeholder="Company Name" required />
+								<div *ngIf="f.submitted && !company_name.valid" class="help-block">Company Name is required</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !date_of_joining.valid }">
+								<input type="text" class="form-control" name="date_of_joining" 
+								[(ngModel)]="selectedUser.date_of_joining.formatted" #date_of_joining="ngModel" placeholder="Date of Joining" required />
+								<div *ngIf="f.submitted && !date_of_joining.valid" class="help-block">Date of Joining is required</div>
+							</div>
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !years_of_exp.valid }">
+								<input type="number" class="form-control" name="years_of_exp" [(ngModel)]="selectedUser.years_of_exp" #years_of_exp="ngModel" placeholder="Years Of Experience" required/>
+								<div *ngIf="f.submitted && !years_of_exp.valid" class="help-block">Years of Experience is required</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !email_company.valid }">
+								<input type="text" class="form-control" name="email_company" [(ngModel)]="selectedUser.email_company" #email_company="ngModel" placeholder="Company Email" required  />
+								<div *ngIf="f.submitted && !email_company.valid" class="help-block">Company Email is required</div>
+							</div>
+						</div>
+						<div class="page-header" style="margin-top: auto;">
+							<h4>Emergency Contact</h4>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !emergency_contact_person.valid }">
+								<input type="text" class="form-control" name="emergency_contact_person" [(ngModel)]="selectedUser.emergency_contact_person" #emergency_contact_person="ngModel" placeholder="Name" required />
+								<div *ngIf="f.submitted && !emergency_contact_person.valid" class="help-block">Emergency Contact Person is required</div>
+							</div>
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !emergency_contact_person_phone.valid }">
+								<input type="number" class="form-control" name="emergency_contact_person_phone" [(ngModel)]="selectedUser.emergency_contact_person_phone" #emergency_contact_person_phone="ngModel" placeholder="Phone"  required />
+								<div *ngIf="f.submitted && !emergency_contact_person_phone.valid" class="help-block">Emergency Contact is required</div>
+							</div>
+						</div>
+						<div class="page-header" style="margin-top: auto;">
+							<h4>Personal Details</h4>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !pan_no.valid }">
+								<input type="text" class="form-control" name="pan_no" [(ngModel)]="selectedUser.pan_no" #pan_no="ngModel" placeholder="PAN Number" required />
+								<div *ngIf="f.submitted && !pan_no.valid" class="help-block">PAN Number is required</div>
+							</div>
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !passport_no.valid }">
+								<input type="text" class="form-control" name="passport_no" [(ngModel)]="selectedUser.passport_no" #passport_no="ngModel" placeholder="Passport Number"/>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !mediclaim.valid }">
+								<div class="checkbox i-checks">
+									<label>
+										<input type="checkbox" name="mediclaim" [(ngModel)]="selectedUser.mediclaim" #mediclaim="ngModel" ng-true-value="true" ng-false-value="false"/>
+										<i></i>Mediclaim 
+									</label>
+								</div>
+							</div>
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !married.valid }">
+								<div class="checkbox i-checks">
+									<label>
+										<input type="checkbox" name="married" [(ngModel)]="selectedUser.married" #married="ngModel" ng-true-value="true" ng-false-value="false"/>
+										<i></i>Married 
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !father_name.valid }">
+								<input type="text" class="form-control" name="father_name" [(ngModel)]="selectedUser.father_name" #father_name="ngModel" placeholder="Father's Name" required />
+								<div *ngIf="f.submitted && !father_name.valid" class="help-block">Father's Name is required</div>
+							</div>
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !spouse_name.valid }">
+								<input type="text" class="form-control" name="spouse_name" [(ngModel)]="selectedUser.spouse_name" #spouse_name="ngModel" placeholder="Spouse's Name" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !date_of_birth.valid }">
+								<input type="text" class="form-control" name="date_of_birth" [(ngModel)]="selectedUser.date_of_birth.formatted" #date_of_birth="ngModel" placeholder="Date of Birth" required />
+								<div *ngIf="f.submitted && !date_of_birth.valid" class="help-block">Date of Birth is required</div>
+							</div>
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !number_of_dependents.valid }">
+								<input type="number" class="form-control" name="number_of_dependents" [(ngModel)]="selectedUser.number_of_dependents" #number_of_dependents="ngModel" placeholder="Number of dependents" required/>
+								<div *ngIf="f.submitted && !number_of_dependents.valid" class="help-block">Number of dependents required</div>
+							</div>
+						</div>
+						<div class="page-header" style="margin-top: auto;">
+							<h4>Bank Details</h4>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !bank_name.valid }">
+								<input type="text" class="form-control" name="bank_name" [(ngModel)]="selectedUser.bank_name" #bank_name="ngModel" placeholder="Bank Name" required />
+								<div *ngIf="f.submitted && !bank_name.valid" class="help-block">Bank Name is required</div>
+							</div>
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !bank_account_number.valid }">
+								<input type="text" class="form-control" name="bank_account_number" [(ngModel)]="selectedUser.bank_account_number" #bank_account_number="ngModel" placeholder="Bank Account Number" required/>
+								<div *ngIf="f.submitted && !bank_account_number.valid" class="help-block">Bank Account Number is required</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !bank_IFSC_code.valid }">
+								<input type="text" class="form-control" name="bank_IFSC_code" [(ngModel)]="selectedUser.bank_IFSC_code" #bank_IFSC_code="ngModel" placeholder="Bank IFSC Code" required />
+								<div *ngIf="f.submitted && !bank_IFSC_code.valid" class="help-block">Bank IFSC Code is required</div>
+							</div>
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !bank_branch_address.valid }">
+								<input type="text" class="form-control" name="bank_branch_address" [(ngModel)]="selectedUser.bank_branch_address" #bank_branch_address="ngModel" placeholder="Bank Branch Address" required/>
+								<div *ngIf="f.submitted && !bank_branch_address.valid" class="help-block">Bank Branch Address is required</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !bank_city.valid }">
+								<input type="text" class="form-control" name="bank_city" [(ngModel)]="selectedUser.bank_city" #bank_city="ngModel" placeholder="Bank City" required />
+								<div *ngIf="f.submitted && !bank_city.valid" class="help-block">Bank City is required</div>
+							</div>
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !bank_state.valid }">
+								<input type="text" class="form-control" name="bank_state" [(ngModel)]="selectedUser.bank_state" #bank_state="ngModel" placeholder="Bank State" required/>
+								<div *ngIf="f.submitted && !bank_state.valid" class="help-block">Bank State is required</div>
+							</div>
+						</div>
+						<div class="page-header" style="margin-top: auto;">
+							<h4>Education Details</h4>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !highest_education.valid }">
+								<input type="text" class="form-control" name="highest_education" [(ngModel)]="selectedUser.highest_education" #highest_education="ngModel" placeholder="Highest Education" required />
+								<div *ngIf="f.submitted && !highest_education.valid" class="help-block">Highest Education is required</div>
+							</div>
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !final_degree_perc.valid }">
+								<input type="number" class="form-control" name="final_degree_perc" [(ngModel)]="selectedUser.final_degree_perc" #final_degree_perc="ngModel" placeholder="Final Degree Percentage" required/>
+								<div *ngIf="f.submitted && !final_degree_perc.valid" class="help-block">Final Degree Percentage is required</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !degree_spec.valid }">
+								<input type="text" class="form-control" name="degree_spec" [(ngModel)]="selectedUser.degree_spec" #degree_spec="ngModel" placeholder="Degree Specialization" required />
+								<div *ngIf="f.submitted && !degree_spec.valid" class="help-block">Degree Specialization is required</div>
+							</div>
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !college_name.valid }">
+								<input type="text" class="form-control" name="college_name" [(ngModel)]="selectedUser.college_name" #college_name="ngModel" placeholder="College Name" required/>
+								<div *ngIf="f.submitted && !college_name.valid" class="help-block">College Name is required</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !university_name.valid }">
+								<input type="text" class="form-control" name="university_name" [(ngModel)]="selectedUser.university_name" #university_name="ngModel" placeholder="University Name" required />
+								<div *ngIf="f.submitted && !university_name.valid" class="help-block">University Name is required</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<button [disabled]="loading" class="btn btn-primary block full-width m-b">Update</button>
+							<img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+						</div>
+					</form>	
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

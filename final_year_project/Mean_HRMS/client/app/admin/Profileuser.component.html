@@ -1,0 +1,346 @@
+<style type="text/css">
+	body {
+		background: #F1F3FA;
+	}
+
+	/* Profile container */
+	.profile {
+		margin: 20px 0;
+	}
+
+	/* Profile sidebar */
+	.profile-sidebar {
+		padding: 20px 0 10px 0;
+		background: #fff;
+	}
+
+	.profile-userpic img {
+		float: none;
+		margin: 0 auto;
+		width: 50px;
+		height: 50px;
+		-webkit-border-radius: 50% !important;
+		-moz-border-radius: 50% !important;
+		border-radius: 50% !important;
+		border: 1px solid #999;
+	}
+
+	.profile-usertitle {
+		text-align: center;
+		margin-top: 20px;
+	}
+
+	.profile-usertitle-name {
+		color: #5a7391;
+		font-size: 16px;
+		font-weight: 600;
+		margin-bottom: 7px;
+	}
+
+	.profile-usertitle-job {
+		text-transform: uppercase;
+		color: #5b9bd1;
+		font-size: 12px;
+		font-weight: 600;
+		margin-bottom: 5px;
+	}
+
+	.profile-userbuttons {
+		text-align: center;
+		margin-top: 10px;
+	}
+
+	.profile-userbuttons .btn {
+		text-transform: uppercase;
+		font-size: 11px;
+		font-weight: 600;
+		padding: 6px 15px;
+		margin-right: 5px;
+	}
+
+	.profile-userbuttons .btn:last-child {
+		margin-right: 0px;
+	}
+
+	.profile-usermenu {
+		margin-top: 30px;
+	}
+
+	.profile-usermenu {
+		margin-top: 30px;
+	}
+
+	.profile-usermenu ul li {
+		border-bottom: 1px solid #f0f4f7;
+	}
+
+	.profile-usermenu ul li:last-child {
+		border-bottom: none;
+	}
+
+	.profile-usermenu ul li a {
+		color: #93a3b5;
+		font-size: 14px;
+		font-weight: 400;
+	}
+
+	.profile-usermenu ul li a i {
+		margin-right: 8px;
+		font-size: 14px;
+	}
+
+	.profile-usermenu ul li a:hover {
+		background-color: #fafcfd;
+		color: #5b9bd1;
+	}
+
+	.profile-usermenu ul li.active {
+		border-bottom: none;
+	}
+
+	.profile-usermenu ul li.active a {
+		color: #5b9bd1;
+		background-color: #f6f9fb;
+		border-left: 2px solid #5b9bd1;
+		margin-left: -2px;
+	}
+
+	/* Profile Content */
+	.profile-content {
+		padding: 20px;
+		background: #fff;
+		min-height: 460px;
+	}
+</style>
+
+<div class="container fadeInDown">
+	<div class="row profile">
+		<div class="col-md-3">
+			<div class="profile-sidebar">
+				<!-- SIDEBAR USERPIC -->
+				<p style="margin-right: 10px; text-align: right;"><a [routerLink]="['/login']"><i class="fa fa-sign-out"></i></a></p>
+				<div class="profile-userpic">
+					<img src="images/user.png" class="img-responsive" alt="">
+				</div>
+				<!-- END SIDEBAR USERPIC -->
+				<!-- SIDEBAR USER TITLE -->
+				<div class="profile-usertitle">
+					<div class="profile-usertitle-name">
+						{{currentUser.firstName}} {{currentUser.lastName}}
+					</div>
+					<div class="profile-usertitle-job">
+						{{currentUser.designation}}, {{currentUser.company_name}}
+					</div>
+					<div>
+						Email: <span style="text-decoration: underline; color: blue;">{{currentUser.email}}</span>
+					</div>
+					<div>
+						Contact: {{currentUser.phone}}
+					</div>
+				</div>
+				<div class="profile-usermenu">
+					<ul class="nav">
+						<li class="active">
+							<a [routerLink]="['/']"><i class="fa fa-users"></i>Employees </a>
+						</li>
+						<li >
+							<a [routerLink]="['/uploadCSV']"><i class="fa fa-users"></i>Upload CSV </a>
+						</li>
+						<li >
+							<a [routerLink]="['/holidayCalendar']"><i class="fa fa-users"></i>Holiday Calendar </a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-9">
+			<div *ngIf="selectedUser?._id" class="profile-content col-md-12" >
+				<div  class="col-md-3 col-lg-3" >
+					<a [routerLink]="['/']"><i class="fa fa-arrow-left"></i> Home</a>
+				</div>
+				<div class="col-md-3 col-lg-3">
+						<a (click)="deleteUser(selectedUser._id)">Delete</a>
+					</div>
+					<div class="col-md-3 col-lg-3">
+						<a [routerLink]="['/']">Salary</a>
+					</div>
+					<div  class="col-md-3 col-lg-3">
+						<a [routerLink]="['/editUser', selectedUser._id]">Edit</a>
+					</div>	
+					<div>
+						<a [routerLink]="['/report']">Attendance</a>
+					</div>
+				<div class="col-md-12 col-lg-12" style="top: 15px;">
+					
+					<form class="m-t" name="form" #f="ngForm" (ngSubmit)="f.form.valid && updateUser(selectedUser._id)" novalidate >
+						<div class="page-header" style="margin-top: auto;">
+							<h4>Contact Details</h4>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6">
+								<label>FirstName:</label><div>{{selectedUser.firstName}}</div>
+							</div>
+							<div class="form-group col-md-6">
+								<label>LastName:</label><div>{{selectedUser.lastName}}</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6">
+								<label>Email:</label><div>{{selectedUser.email}}</div>
+							</div>
+							<div class="form-group col-md-6">
+								<label>Phone:</label><div>{{selectedUser.phone}}</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" >
+								<label>Current Address:</label><div>{{selectedUser.current_address}}</div>
+							</div>
+							<div class="form-group col-md-6" >
+								<label>Permanent Address:</label><div>{{selectedUser.permanent_address}}</div>
+							</div>
+						</div>
+						<div class="page-header" style="margin-top: auto;">
+							<h4>Company Profile Details</h4>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" >
+								<label>Employee Id:</label><div>{{selectedUser.employee_id}}</div>
+							</div>
+							<div class="form-group col-md-6" >
+								<label>Attendance Id:</label><div>{{selectedUser.attendance_id}}</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" >
+								<label>Username:</label><div>{{selectedUser.username}}</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6">
+								<label>Designation:</label><div>{{selectedUser.Designation}}</div>
+							</div>
+							<div class="form-group col-md-6" >
+								<label>Company Name:</label><div>{{selectedUser.company_name}}</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" >
+								<label>Date of Joining:</label><div>{{selectedUser.date_of_joining.formatted | json}}</div>
+							</div>
+							<div class="form-group col-md-6" >
+								<label>Experience in years:</label><div>{{selectedUser.years_of_exp}}</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" >
+								<label>Company email:</label><div>{{selectedUser.email_company}}</div>
+							</div>
+						</div>
+						<div class="page-header" style="margin-top: auto;">
+							<h4>Emergency Contact</h4>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" >
+								<label>Emergency Contact Person:</label><div>{{selectedUser.emergency_contact_person}}</div>
+							</div>
+							<div class="form-group col-md-6" >
+								<label>Emergency Contact Person Phone:</label><div>{{selectedUser.emergency_contact_person_phone}}</div>
+							</div>
+						</div>
+						<div class="page-header" style="margin-top: auto;">
+							<h4>Personal Details</h4>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" >
+								<label>Pan No:</label><div>{{selectedUser.pan_no}}</div>
+							</div>
+							<div class="form-group col-md-6" >
+								<label>Passport No:</label><div>{{selectedUser.passport_no}}</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" >
+								<div >
+									<label>Medical Claim:</label>{{selectedUser.mediclaim}}
+								</div>
+							</div>
+							<div class="form-group col-md-6" >
+								<div >
+									<label>Married:	</label>{{selectedUser.married}}
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" >
+								<label>Father Name:	</label><div>{{selectedUser.father_name}}</div>
+							</div>
+							<div class="form-group col-md-6" >
+								<label>Spouse Name:	</label><div>{{selectedUser.spouse_name}}</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" >
+								<label>Date Of Birth: </label><div>{{selectedUser.date_of_birth.formatted}}</div>
+							</div>
+							<div class="form-group col-md-6" >
+								<label>Number Of Dependents: </label><div>{{selectedUser.number_of_dependents}}</div>
+							</div>
+						</div>
+						<div class="page-header" style="margin-top: auto;">
+							<h4>Bank Details</h4>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" >
+								<label>Bank Name: </label><div>{{selectedUser.bank_name}}</div>
+							</div>
+							<div class="form-group col-md-6" >
+								<label>Bank Account Number: </label><div>{{selectedUser.bank_account_number}}</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" >
+								<label>Bank IFSC Code: </label><div>{{selectedUser.bank_IFSC_code}}</div>
+							</div>
+							<div class="form-group col-md-6" >
+								<label>Bank Branch Address: </label><div>{{selectedUser.bank_branch_address}}</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" >
+								<label>Bank City: </label><div>{{selectedUser.bank_city}}</div>
+							</div>
+							<div class="form-group col-md-6" >
+								<label>Bank State: </label><div>{{selectedUser.bank_state}}</div>
+							</div>
+						</div>
+						<div class="page-header" style="margin-top: auto;">
+							<h4>Education Details</h4>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" >
+								<label>Highest Education:</label><div>{{selectedUser.highest_education}}</div>
+							</div>
+							<div class="form-group col-md-6" >
+								<label>Final Degree Percentage: </label><div>{{selectedUser.final_degree_perc}}</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" >
+								<label>Degree Specialization: </label><div>{{selectedUser.degree_spec}}</div>
+							</div>
+							<div class="form-group col-md-6" >
+								<label>College Name: </label><div>{{selectedUser.college_name}}</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6" >
+								<label>University Name: </label><div>{{selectedUser.university_name}}</div>
+							</div>
+						</div>
+					</form>	
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

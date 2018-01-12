@@ -1,0 +1,32 @@
+.plr0 {
+	padding-right: 0px;
+	padding-left: 0px;
+}
+.pt10 {
+	padding-top: 10px;
+}
+
+.panel-nob > .panel-heading {
+	background-color: #fff;
+	font-weight: 600;
+	/*border-color: #fff; */
+}
+.panel-nob .panel-footer {
+	background-color: #fff;
+	border-top: 1px solid #fff;
+}
+
+.panel-nob .panel-row {
+	/*border-top: 1px solid #ddd;
+	 padding-top: 5px;
+	 padding-bottom: 5px; */
+	border-bottom: 1px solid #ddd;
+}
+
+.panel-row p {
+	margin: 7px 0px;
+}
+
+.panel-nob .panel-row:last-child {
+	border: 0px;
+}

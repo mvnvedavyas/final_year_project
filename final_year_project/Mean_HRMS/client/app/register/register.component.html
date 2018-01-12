@@ -1,0 +1,62 @@
+﻿<div class="container text-center loginscreen   animated fadeInDown">
+	<div class="col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6" style="top: 15px;">
+		<h3>Registration Form</h3>
+		<form class="m-t" name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
+			<div class="row">
+				<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !firstName.valid }">
+					<input type="text" class="form-control" name="firstName" [(ngModel)]="model.firstName" #firstName="ngModel" placeholder="First Name" required />
+					<div *ngIf="f.submitted && !firstName.valid" class="help-block">First Name is required</div>
+				</div>
+				<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !lastName.valid }">
+					<input type="text" class="form-control" name="lastName" [(ngModel)]="model.lastName" #lastName="ngModel" placeholder="Last Name" required />
+					<div *ngIf="f.submitted && !lastName.valid" class="help-block">Last Name is required</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+					<input type="text" class="form-control" name="username" [(ngModel)]="model.username" #username="ngModel" placeholder="Username" required />
+					<div *ngIf="f.submitted && !username.valid" class="help-block">Username is required</div>
+				</div>
+				<div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+					<input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" placeholder="Password" required />
+					<div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
+				</div>
+			</div>
+			
+			<div class="form-group" [ngClass]="{ 'has-error': f.submitted && !email.valid }">
+				<input type="email" class="form-control" name="email" [(ngModel)]="model.email" #email="ngModel" placeholder="Email" required />
+				<div *ngIf="f.submitted && !email.valid" class="help-block">Email is required</div>
+			</div>
+			<div class="form-group" [ngClass]="{ 'has-error': f.submitted && !phone.valid }">
+				<input type="text" class="form-control" name="phone" [(ngModel)]="model.phone" #phone="ngModel" placeholder="Phone"  required />
+				<div *ngIf="f.submitted && !phone.valid" class="help-block">Contact number is required</div>
+			</div>
+			<div class="form-group" [ngClass]="{ 'has-error': f.submitted && !designation.valid }">
+				<input type="text" class="form-control" name="designation" [(ngModel)]="model.designation" #designation="ngModel" placeholder="Designation" required />
+				<div *ngIf="f.submitted && !designation.valid" class="help-block">Designation is required</div>
+			</div>
+			<div class="form-group" [ngClass]="{ 'has-error': f.submitted && !company_name.valid }">
+				<input type="text" class="form-control" name="company_name" [(ngModel)]="model.company_name" #company_name="ngModel" placeholder="Company Name" required />
+				<div *ngIf="f.submitted && !company_name.valid" class="help-block">Company Name is required</div>
+			</div>
+			<div class="form-group" [ngClass]="{ 'has-error': f.submitted && !user_role.valid }">
+				<input type="hidden" class="form-control" name="user_role" [(ngModel)]="model.user_role" #user_role="ngModel" />
+				<!--<select class="form-control" name="user_role" id="user_role" [(ngModel)]="model.user_role" #user_role="ngModel" required >
+					<option [ngValue]="default" selected="selected" disabled>Select Your Role</option>
+					<option value="Employee">Employee</option>
+					<option value="Admin">Admin</option>
+				</select>
+				<div *ngIf="f.submitted && !user_role.valid" class="help-block">Role is required</div>-->
+			</div>
+			<div class="form-group">
+				<button [disabled]="loading" class="btn btn-primary block full-width m-b">Register</button>
+				<img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+				<p class="text-muted text-center">
+					<small>Already have an account?</small>
+				</p>
+				<a class="btn btn-sm btn-white btn-block" href="/login">Login</a>
+			</div>
+		</form>	
+	</div>
+</div>

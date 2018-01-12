@@ -1,0 +1,216 @@
+<style type="text/css">
+	body {
+		background: #F1F3FA;
+	}
+
+	/* Profile container */
+	.profile {
+		margin: 20px 0;
+	}
+
+	/* Profile sidebar */
+	.profile-sidebar {
+		padding: 20px 0 10px 0;
+		background: #fff;
+	}
+
+	.profile-userpic img {
+		float: none;
+		margin: 0 auto;
+		width: 50px;
+		height: 50px;
+		-webkit-border-radius: 50% !important;
+		-moz-border-radius: 50% !important;
+		border-radius: 50% !important;
+		border: 1px solid #999;
+	}
+
+	.profile-usertitle {
+		text-align: center;
+		margin-top: 20px;
+	}
+
+	.profile-usertitle-name {
+		color: #5a7391;
+		font-size: 16px;
+		font-weight: 600;
+		margin-bottom: 7px;
+	}
+
+	.profile-usertitle-job {
+		text-transform: uppercase;
+		color: #5b9bd1;
+		font-size: 12px;
+		font-weight: 600;
+		margin-bottom: 5px;
+	}
+
+	.profile-userbuttons {
+		text-align: center;
+		margin-top: 10px;
+	}
+
+	.profile-userbuttons .btn {
+		text-transform: uppercase;
+		font-size: 11px;
+		font-weight: 600;
+		padding: 6px 15px;
+		margin-right: 5px;
+	}
+
+	.profile-userbuttons .btn:last-child {
+		margin-right: 0px;
+	}
+
+	.profile-usermenu {
+		margin-top: 30px;
+	}
+
+	.profile-usermenu {
+		margin-top: 30px;
+	}
+
+	.profile-usermenu ul li {
+		border-bottom: 1px solid #f0f4f7;
+	}
+
+	.profile-usermenu ul li:last-child {
+		border-bottom: none;
+	}
+
+	.profile-usermenu ul li a {
+		color: #93a3b5;
+		font-size: 14px;
+		font-weight: 400;
+	}
+
+	.profile-usermenu ul li a i {
+		margin-right: 8px;
+		font-size: 14px;
+	}
+
+	.profile-usermenu ul li a:hover {
+		background-color: #fafcfd;
+		color: #5b9bd1;
+	}
+
+	.profile-usermenu ul li.active {
+		border-bottom: none;
+	}
+
+	.profile-usermenu ul li.active a {
+		color: #5b9bd1;
+		background-color: #f6f9fb;
+		border-left: 2px solid #5b9bd1;
+		margin-left: -2px;
+	}
+
+	/* Profile Content */
+	.profile-content {
+		padding: 20px;
+		background: #fff;
+		min-height: 460px;
+	}
+	
+	.my-drop-zone { border: dotted 3px lightgray; }
+    .nv-file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
+    .another-file-over-class { border: dotted 3px green; }
+	
+</style>
+
+<div class="container fadeInDown">
+	<div class="row profile">
+		<div class="col-md-3">
+			<div class="profile-sidebar">
+				<!-- SIDEBAR USERPIC -->
+				<p style="margin-right: 10px; text-align: right;"><a [routerLink]="['/login']"><i class="fa fa-sign-out"></i></a></p>
+				<div class="profile-userpic">
+					<img src="images/user.png" class="img-responsive" alt="">
+				</div>
+				<!-- END SIDEBAR USERPIC -->
+				<!-- SIDEBAR USER TITLE -->
+				<div class="profile-usertitle">
+					<div class="profile-usertitle-name">
+						{{currentUser.firstName}} {{currentUser.lastName}}
+					</div>
+					<div class="profile-usertitle-job">
+						{{currentUser.designation}}, {{currentUser.company_name}}
+					</div>
+					<div>
+						Email: <span style="text-decoration: underline; color: blue;">{{currentUser.email}}</span>
+					</div>
+					<div>
+						Contact: {{currentUser.phone}}
+					</div>
+				</div>
+				<div class="profile-usermenu">
+					<ul class="nav">
+						<li >
+							<a [routerLink]="['/']"><i class="fa fa-users"></i>Employees </a>
+						</li>
+						<li >
+							<a [routerLink]="['/uploadCSV']"><i class="fa fa-users"></i>Upload CSV </a>
+						</li>
+						<li class="active">
+							<a [routerLink]="['/holidayCalendar']"><i class="fa fa-users"></i>Holiday Calendar </a>
+						</li>
+						<li>
+							<a [routerLink]="['/report']"><i class="fa fa-users"></i> Attendance</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-9">
+			<div class="Calendar-content col-md-12">
+				<div class="col-md-12 col-lg-12">
+					<a [routerLink]="['/']"><i class="fa fa-arrow-left"></i> Home</a>
+				</div>
+				<div class="col-md-12 col-lg-12" style="top: 15px;">
+					<div class="navbar navbar-default">
+					<form class="form" name="form" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+						<div class="navbar-header">
+							<h3>Holiday Calendar</h3>
+						</div>
+						<br>
+						<div class="row">
+                         <div class="col-md-12">
+						  <br>
+							Pick a Date:
+							<my-date-picker name="date_of_holiday"  type="text" [options]="myDatePickerOptions"
+                    		[(ngModel)]="model.date_of_holiday" placeholder = "Date of Holiday" #date_of_holiday="ngModel" required></my-date-picker>
+
+							<br><br>
+							<label>Name of the Holiday :</label>
+							<input type="text" name="name_of_the_Holiday" [(ngModel)]="model.name_of_the_Holiday" #name_of_the_Holiday="ngModel" placeholder="Holiday Name" required />
+                          </div>
+						</div>
+						<div class="row"><br>
+						 <div class="col-md-12">
+							<button type="button" class="btn btn-info" [disabled]="loading">Save</button>
+						  	<button type="button" class="btn btn-sm btn-danger" (click)="clear()">Clear</button><br>
+						 </div>
+						</div><br>
+						<div class="table-responsive">          
+							 <table class="table">
+							   <thead>
+							     <tr>
+							       <th>Date</th>
+							       <th>Name of the Holiday</th>
+							     </tr>
+							   </thead>
+							   <tbody>
+				 			     <tr>
+							       <td>{{ date_of_holiday.formatted }}</td>
+							       <td>{{ name_of_the_Holiday.formatted }}</td> 
+							     </tr>
+							   </tbody>
+							 </table>
+						</div>
+					</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
